@@ -1,6 +1,6 @@
 /*
 ======================================================================
-    ZSHARE v1.2  --  Weapon sharing for Black Ops II Zombies
+    ZSHARE v1.3  --  Weapon sharing for Black Ops II Zombies
     Plutonium T6
 
     by Xep
@@ -114,6 +114,17 @@ init()
 
     level.zs_loaded = 1;
 
+    /*
+        Switched off. The descriptor still goes up, because "not
+        installed" and "installed and switched off" are different answers
+        to a mod asking what ZShare is doing in this match.
+    */
+    if ( !level.zs.enabled )
+    {
+        zs_api_register( 0 );
+        return;
+    }
+
     level.zs_triggers = [];
     level.zs_perk_machines = [];
     level.zs_pap_machines = [];
@@ -140,6 +151,9 @@ init()
     level thread zs_config_watcher();
     level thread zs_config_printer();
     level thread zs_build_watermark();
+
+    // Last, so the first thing that reads it finds a mod already up.
+    zs_api_register( 1 );
 }
 
 main()
@@ -203,6 +217,21 @@ zs_load_config()
     */
     if ( !isdefined( level.zs ) )
         level.zs = spawnstruct();
+
+    // --- general ---------------------------------------------------
+
+    /*
+        ZShare itself. On by default. Off, the script still loads, still
+        says so on level.zmods -- with enabled 0 -- and does nothing else:
+        no prompts, no hooks over the stock scripts, no chat words and no
+        threads. The match runs as it would with the file gone.
+
+        Read once, as the match loads. Taking prompts off players and
+        handing replaced stock functions back is not something a switch
+        can do safely in the middle of a game, so this one lands on the
+        next match -- which is what a bundle's MODS page says about it.
+    */
+    level.zs.enabled = zs_cfg_int( "zs_enabled", 1 );
 
     // --- debug -----------------------------------------------------
     /*
@@ -527,13 +556,40 @@ zs_chat_listener()
 */
 zs_word_after( msg, token )
 {
-    if ( getsubstr( msg, 0, token.size ) == token )
+    /*
+        getsubstr()'s third argument is where to stop, not how many
+        characters to take -- stock reads a map name with
+        getsubstr( mapname, 3, mapname.size ) and chops three characters
+        with getsubstr( weapon, 0, weapon.size - 3 ). Given token.size
+        there, the skipped-character form compared one character too few
+        and never matched, so !tip was dead on any client that puts a
+        character in front of the message.
+
+        And the word has to end where the token does: "!tipsy" is not
+        "!tip", and reading its "sy" as an amount is how a chat line
+        nobody meant for ZShare reached the tip code.
+    */
+    if ( zs_word_starts( msg, 0, token ) )
         return zs_trim( getsubstr( msg, token.size ) );
 
-    if ( msg.size > 1 && getsubstr( msg, 1, token.size ) == token )
+    if ( msg.size > 1 && zs_word_starts( msg, 1, token ) )
         return zs_trim( getsubstr( msg, 1 + token.size ) );
 
     return undefined;
+}
+
+zs_word_starts( msg, at, token )
+{
+    end = at + token.size;
+
+    if ( msg.size < end )
+        return 0;
+
+    if ( getsubstr( msg, at, end ) != token )
+        return 0;
+
+    // The whole message, or a space after it.
+    return msg.size == end || getsubstr( msg, end, end + 1 ) == " ";
 }
 
 zs_trim( s )
@@ -1702,6 +1758,18 @@ zs_thank( to )
     if ( !zs_pair_ok( self, to ) )
         return;
 
+    /*
+        Not from a Who's Who copy. The copy's score is put back on the
+        revive from loadout.score, so points sent from one are minted:
+        the teammate keeps them and the copy gets them back. Every
+        prompt path already refuses it; the chat words reach here too.
+    */
+    if ( zs_whos_who( self ) )
+    {
+        self zs_deny( "Revive yourself first -- your Who's Who copy can't share" );
+        return;
+    }
+
     amount = level.zs.thank_amount;
 
     if ( self.score < amount )
@@ -1736,6 +1804,13 @@ zs_tip( rest )
 {
     if ( !level.zs.thank )
         return;
+
+    // Not from a Who's Who copy -- see zs_thank().
+    if ( zs_whos_who( self ) )
+    {
+        self zs_deny( "Revive yourself first -- your Who's Who copy can't share" );
+        return;
+    }
 
     parts = strtok( rest, " " );
 
@@ -2118,6 +2193,15 @@ zs_box_mode( chest, player )
 zs_box_shareable( chest, player )
 {
     if ( !isdefined( chest ) || !isdefined( player ) )
+        return 0;
+
+    /*
+        Not in Grief, where both teams use the one box: a share shows the
+        weapon to everybody the way the hacker's re-spin does, and the
+        enemy team would be as welcome to it as your own. Paying is off
+        there for the same reason -- zs_pay_team_check() answers both.
+    */
+    if ( !is_true( level.zs_pay_team_ok ) )
         return 0;
 
     if ( !is_true( chest.grab_weapon_hint ) || is_true( chest.zs_shared ) )
@@ -3288,6 +3372,10 @@ zs_pap_shareable( trig, player )
     if ( !isdefined( trig.pack_player ) || trig.pack_player != player || zs_whos_who( player ) )
         return 0;
 
+    // Not in Grief, for the reason zs_box_shareable() gives.
+    if ( !is_true( level.zs_pay_team_ok ) )
+        return 0;
+
     if ( is_true( level.zs_pap_take_hooked ) )
         return is_true( trig.zs_pap_window );
 
@@ -3905,6 +3993,110 @@ zs_game_ready()
 
 
 /* ==================================================================
+    THE SHARED MOD API
+
+    Xep's mods find each other on level.zmods: an array keyed by mod id,
+    each key a struct saying what that mod is and handing over the few
+    things another mod may ask it to do. ZShare's goes up as the script
+    finishes loading, and again -- saying enabled 0 -- when zs_enabled is
+    off, since "not installed" and "installed and switched off" are
+    different answers.
+
+    api_version 1 is this. The descriptor is the contract: level.zs is
+    ZShare's own struct and may move.
+   ================================================================== */
+
+/*
+    The version on its own -- no build time, no origin -- because that is
+    what the descriptor carries for another mod to read. Written by
+    tools/build.py between the markers; never edit it by hand.
+*/
+zs_version()
+{
+    // ZS_VERSION_BEGIN
+    return "1.3";
+    // ZS_VERSION_END
+}
+
+/*
+    The descriptor. Written into whatever registry is already there --
+    another mod may have made it first, and replacing the array would be
+    that mod's entry gone.
+*/
+zs_api_register( benabled )
+{
+    if ( !isdefined( level.zmods ) )
+        level.zmods = [];
+
+    if ( !isdefined( level.zmods[ "zshare" ] ) )
+        level.zmods[ "zshare" ] = spawnstruct();
+
+    mod = level.zmods[ "zshare" ];
+
+    mod.id = "zshare";
+    mod.display_name = "ZShare";
+    mod.version = zs_version();
+    mod.api_version = 1;
+    mod.settings_manifest_version = 1;
+    mod.enabled = benabled;
+
+    mod.reload_config = ::zs_api_reload_config;
+    mod.get_stock_perk_limit = ::zs_api_stock_perk_limit;
+    mod.get_effective_perk_limit = ::zs_api_effective_perk_limit;
+}
+
+/*
+    Read the settings again -- for a mod that has just written one of
+    ZShare's dvars and wants it to count now rather than at the next
+    press. 1 when there was something to read.
+*/
+zs_api_reload_config()
+{
+    if ( !is_true( level.zs_loaded ) || !isdefined( level.zs ) || !level.zs.enabled )
+        return 0;
+
+    zs_load_config();
+    return 1;
+}
+
+/*
+    The limit the map would give this player if ZShare were not here: the
+    callback ZShare kept before installing its own, which on Origins is
+    Origins' own and includes the slots the dig hands out.
+*/
+zs_api_stock_perk_limit( player )
+{
+    if ( !isdefined( player ) )
+        return 0;
+
+    if ( isdefined( level.zs_perk_limit_prev ) )
+        return player [[ level.zs_perk_limit_prev ]]();
+
+    if ( isdefined( level.perk_purchase_limit ) )
+        return level.perk_purchase_limit;
+
+    return 0;
+}
+
+/*
+    And the limit ZShare is actually holding the map to, map bonuses and
+    all -- the same number every machine gets when it asks. Where ZShare's
+    override is not installed, which is zs_enabled 0 and the moments before
+    the hook goes on, the honest answer is the map's own.
+*/
+zs_api_effective_perk_limit( player )
+{
+    if ( !isdefined( player ) )
+        return 0;
+
+    if ( !is_true( level.zs_late_hooked ) || !isdefined( level.zs ) )
+        return zs_api_stock_perk_limit( player );
+
+    return player zs_perk_limit_get();
+}
+
+
+/* ==================================================================
     BUILD STAMP
 
     A development build says so on screen: its version and the time it
@@ -4034,8 +4226,15 @@ zs_build_watermark()
     e.foreground = 1;
     e.glowcolor = ( 0, 0, 0 );
     e.glowalpha = 0.55;
-    e.alpha = 0;
-    e fadeovertime( 0.25 );
+
+    /*
+        Set outright rather than faded in. fadeovertime() animates on the
+        game's own clock, and in a session with ZPause running that clock is
+        the one thing another mod can stop: a pause taken in the moments
+        after a match starts holds the fade wherever it got to, and nothing
+        ever fades it again. T5 and T4 always set it outright and never had
+        it. Nothing about a stamp needs an animation.
+    */
     e.alpha = 0.7;
     e settext( stamp + "  [" + zs_origin() + "]" );
 

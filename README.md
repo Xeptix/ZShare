@@ -6,6 +6,8 @@ by Xep
 
 [**Download the latest release**](https://github.com/Xeptix/ZShare/releases/latest)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F6L1285ROA)
+
 Trade guns with a teammate, hand them points, give away a box hit or a Pack-a-Punch you
 don't want, and pay for a teammate's perk, spin or pack. All of it from the use button,
 with prompts that read like the game's own.
@@ -25,7 +27,7 @@ with prompts that read like the game's own.
 Plutonium T6 (Black Ops II), zombies. No other mods or dependencies.
 
 **Only the host needs this file.** Every part of ZShare runs on the host and reaches
-everyone else as ordinary server-to-client traffic — the prompts, the swap, the box, the
+everyone else as ordinary server-to-client traffic - the prompts, the swap, the box, the
 machines, the points, the sounds. Players joining your game install nothing. They trade,
 share, pay and give exactly like you can, on a stock client with no scripts and no mods.
 
@@ -40,7 +42,7 @@ Copy the **`Plutonium`** folder from the download into:
 ```
 
 It mirrors your existing `%localappdata%\Plutonium` exactly, so Windows will ask whether
-to merge — say yes. The only thing it replaces is an older `zshare.gsc`.
+to merge - say yes. The only thing it replaces is an older `zshare.gsc`.
 
 That puts the file here:
 
@@ -60,9 +62,14 @@ It also installs the mod packaging of the same file:
 ```
 
 That copy does nothing unless you pick **zm_share** from the in-game Mods menu, so having
-it there costs nothing. Use it *or* the script above, not both — and the script is usually
+it there costs nothing. Use it *or* the script above, not both - and the script is usually
 the better pick, since Plutonium only enables one mod at a time, so it coexists with
 whatever else you're running while the mod version takes the slot.
+
+The mod version is the one with [the settings menu](#the-settings-menu), which is two more
+files the same copy puts in place: `mods\zm_share\zshare.iwd`, the menu itself, and
+`storage\t6\images\menu_zm_cac_backing.iwi`, the picture behind it. Both come along with the
+`Plutonium` folder; neither does anything while another mod is selected.
 
 ### Or run the installer
 
@@ -74,7 +81,7 @@ installer/linux/install.sh
 ```
 
 Each one finds Plutonium's folder, shows you what it is about to copy, and asks once. On
-Linux, `install.sh` looks where Plutonium ends up under Wine or Proton — Steam's
+Linux, `install.sh` looks where Plutonium ends up under Wine or Proton - Steam's
 `compatdata` including a Steam Deck's, Heroic, Lutris, Bottles, plain `~/.wine`, and the
 Flatpak version of each. `install.bat -Yes` and `install.sh --yes` copy without asking, `-Uninstall` / `--uninstall`
 removes what an install put there, and `-Find` / `--find` only shows what it detects. When it
@@ -86,7 +93,7 @@ allow it once: right-click it, **Properties** → **Permissions** → tick **Is 
 
 It's optional. Dragging the `Plutonium` folder across yourself is identical.
 
-You don't need to restart the game to load a script — just end the current game and start
+You don't need to restart the game to load a script - just end the current game and start
 a new one.
 
 ---
@@ -119,7 +126,7 @@ A few chat words, for when you've already walked away:
 | Action | Input |
 |---|---|
 | Share the box hit or Pack-a-Punch you paid for | type `!share` |
-| Thank whoever just did you a good turn | **Crouch**, look at them, press **use** — or type `!thank` |
+| Thank whoever just did you a good turn | **Crouch**, look at them, press **use** - or type `!thank` |
 | Send any amount of points | type `!tip 500`, or `!tip <name> 500` |
 
 ---
@@ -128,7 +135,7 @@ A few chat words, for when you've already walked away:
 
 What you offer is **the weapon in your hands** when you press. Your teammate can see it
 there; nothing needs naming. What you get back is **whatever they're holding** when they
-accept — so they switch to the gun they want to give before pressing.
+accept - so they switch to the gun they want to give before pressing.
 
 An offer stays open for 10 seconds. It lapses on its own if you switch to your other
 weapon, if the two of you move more than twice the prompt range apart, or if either of
@@ -144,12 +151,12 @@ upgrade, its attachment, and the exact camo, lens and reticle it was rolled with
 arrives as the same weapon that left.
 
 **What can't be traded:** grenades, the knife, placeable mines, equipment, the shield, and
-the revive syrette — each has its own slot and its own rules, and the box won't take your
+the revive syrette - each has its own slot and its own rules, and the box won't take your
 money for one either. Buried's time bomb stays with whoever armed it. On Origins, a staff
 can only go to a player who has none, or who is giving theirs in the same trade, which is
 the map's own one-staff rule.
 
-**Same gun twice.** Black Ops II never lets you carry two weapons of the same family — a
+**Same gun twice.** Black Ops II never lets you carry two weapons of the same family - a
 gun and its Pack-a-Punched version count as one. A trade that would leave someone holding
 both is refused, the way a wall buy refuses to sell you a second copy, rather than quietly
 turning one of the guns into ammo.
@@ -162,7 +169,7 @@ In Grief you can only trade with your own team.
 
 You pay, the weapon rises, and for twelve seconds it's yours to take. **Crouch and press
 use** at the box and it's everyone's: the box prompt changes for the whole room, and
-whoever presses use takes it — you included, if nobody's quicker. The weapon stays up for
+whoever presses use takes it - you included, if nobody's quicker. The weapon stays up for
 the same twelve seconds it always did.
 
 This is the state the game already puts a box in after the hacker re-spins it, so the box
@@ -187,7 +194,7 @@ is 3000. You need the points to give them.
 Crouch at a perk machine, or at the box or the Pack-a-Punch while nobody is using it, and
 the prompt turns into an offer to pay for a teammate. Press use and you pay the machine's
 price. From then on the machine's own prompt reads **`[Cost: 0]`**, and the next teammate
-to use it pays nothing — a drink from a perk machine, a spin from the box, a pack from the
+to use it pays nothing - a drink from a perk machine, a spin from the box, a pack from the
 Pack-a-Punch. Everybody hears about it, and whoever paid is told who used it.
 
 One payment waits at a machine at a time. While yours is waiting, crouch at the machine
@@ -204,7 +211,7 @@ machine can't be used while it spins or upgrades.
 
 | When | What happens |
 |---|---|
-| A paid spin turns up the teddy bear | The spin cost nothing, so the game's own refund is nothing — whoever paid gets their points back instead |
+| A paid spin turns up the teddy bear | The spin cost nothing, so the game's own refund is nothing - whoever paid gets their points back instead |
 | The box moves | The paid spin moves with it |
 | A fire sale or a bonfire sale is on | Nobody can pay at the machine it discounts, and a payment already waiting holds until the sale ends |
 | A paid Pack-a-Punch is used for a re-pack | A re-pack costs less than a pack, and whoever paid gets the difference back |
@@ -219,7 +226,7 @@ Stand up and every machine works exactly as it always has.
 ## The perk limit
 
 `zs_perk_limit` sets how many perks a player can hold. `0`, the default, is the map's own
-limit — four on every stock map, plus the extra slots Origins' digging hands out. Any
+limit - four on every stock map, plus the extra slots Origins' digging hands out. Any
 other number replaces the four, and Origins' extra slots still count on top of it. `-1`
 removes the limit.
 
@@ -239,16 +246,55 @@ zs_points_amount 500
 ```
 
 The config is re-read every five seconds while the game runs, and again on every press,
-so a change takes effect **almost straight away** — no map restart needed. Anything
+so a change takes effect **almost straight away** - no map restart needed. Anything
 already set in your `config.cfg` before the map loads is left alone.
 
 `set zs_config_print 1` in the console prints every setting below with the value it is
 currently holding, then puts the switch back so it can be used again.
 
+### The settings menu
+
+The mod version has every setting below on a screen of its own, so none of them needs the
+console. Pick **zm_share** in the Mods menu, and the host gets a **ZSHARE SETTINGS** button
+in the zombies lobby and the same row on Black Ops II's own pause menu, above OPTIONS,
+during a match. Both open the same screen, and the pause-menu one opens over the pause menu,
+so back returns to it rather than to the lobby.
+
+Across the top is a strip of categories - TRADING, POINTS, THANKS, SHARING, PAYING, PERKS,
+PRESENTATION, SOUNDS - with the shoulder buttons, **Q** and **E**, the arrows either side, or
+a click on a tab to move between them; the names either side and `CATEGORY n / total` say
+where you are and what is next. Underneath are the settings themselves in a list that
+scrolls, and a panel on the right saying what the setting under the cursor does, what its
+dvar is called, what it defaults to, when a change takes, and who it is for. Left and right
+change a setting. The scrollbar can be dragged with the mouse, and the wheel, the keyboard
+and the controller work the way they do everywhere else.
+
+**DEFAULT** leaves a setting to the script's own default. Along the bottom are **RESET TAB**,
+which puts the category you are in back to DEFAULT, **RANDOMIZE**, which picks that category
+at random and can land on DEFAULT, and **RESET ALL**, which puts every ZShare setting back.
+Each of the three asks first, with **No** already under the cursor.
+
+A change lands within five seconds, the same as one typed into the console, and is kept in
+your player config, so it is still set the next time the game starts. It is the host's screen
+only: every setting is one of the host's dvars, and a guest changing one would change
+nothing. The sound rows offer the four aliases ZShare itself uses, plus silence - the others
+in [Sounds](#sounds) are still the console's.
+
+The loose script has no menu: Plutonium loads menus from a mod and nowhere else.
+
+The screen is the one every Z mod draws, so a bundle that carries more than one of them shows
+a single **ZBUNDLE SETTINGS** screen with each mod's categories in it, each mod still keeping
+its own settings in its own place - and the title over each category names the mod that owns
+it. A bundle also gets a **MODS** category, first, which switches each of those mods on and
+off; ZShare's row there is `zs_enabled`, and like everything on that page it lands on the next
+match. Last, in every build, is **CHANGED**, which lists everything moved off its default in
+one place, whichever mod owns it; it is greyed out while there is nothing to list.
+
 | Dvar | Default | What it does |
 |---|---|---|
+| `zs_enabled` | `1` | ZShare itself. Off, the script loads and does nothing else - no prompts, no hooks, no threads. **Read when the match loads**, so it takes on the next one. |
 | `zs_only_script` | `0` | Debug. With both the loose script and the mod-folder copy installed, run only the loose one. |
-| `zs_only_mod` | `0` | Debug. The same, the other way round. Both off — the default — is whichever loads first. Both on leaves nothing running. **Read when the script loads**, so end the game and start a new one for a change to take. |
+| `zs_only_mod` | `0` | Debug. The same, the other way round. Both off - the default - is whichever loads first. Both on leaves nothing running. **Read when the script loads**, so end the game and start a new one for a change to take. |
 | `zs_debug` | `0` | Print what the script decides and why, to the console and to the first player. |
 | `zs_trade` | `1` | Trade weapons with a teammate. |
 | `zs_trade_offer_time` | `10` | Seconds an offer stays open. |
@@ -267,12 +313,12 @@ currently holding, then puts the switch back so it can be used again.
 | `zs_pap_pay` | `1` | The same at the Pack-a-Punch, for the next pack. |
 | `zs_perk_limit` | `0` | How many perks a player can hold. `0` is the map's own limit, a number replaces it, `-1` is no limit. See [The perk limit](#the-perk-limit). |
 | `zs_show_hint` | `1` | Tell players what the prompts do, once, shortly after they spawn. |
-| `zs_messages` | `1` | The one-line messages — who traded with whom, who shared or paid for what, who gave points. Off leaves the prompts and the sounds. |
+| `zs_messages` | `1` | The one-line messages - who traded with whom, who shared or paid for what, who gave points. Off leaves the prompts and the sounds. |
 | `zs_offer_sound` | `zmb_perks_packa_ready` | Played to the player an offer is made to. `none` = silent. |
 | `zs_trade_sound` | `zmb_whoosh` | Played to both players when a trade goes through. `none` = silent. |
 | `zs_share_sound` | `zmb_perks_packa_ready` | Played to everyone else when a weapon is shared or a machine is paid for. `none` = silent. |
 | `zs_points_sound` | `zmb_cha_ching` | Played when points are given, paid or handed back. `none` = silent. |
-| `zs_deny_sound` | `zmb_no_cha_ching` | Played when a press can't do what the prompt said — not enough points, a weapon that can't be traded. `none` = silent. |
+| `zs_deny_sound` | `zmb_no_cha_ching` | Played when a press can't do what the prompt said - not enough points, a weapon that can't be traded. `none` = silent. |
 
 ### Sounds
 
@@ -307,7 +353,7 @@ zs_trade_sound zmb_box_poof
 teammate, linked to them the way `_zm_laststand.gsc` links the revive prompt to a downed
 player, so it follows them and only lights up when that teammate looks at them. Because
 they're real triggers, the engine decides which prompt wins when two overlap, exactly as it
-does for a door beside a wall buy — ZShare never has to guess what you meant.
+does for a door beside a wall buy - ZShare never has to guess what you meant.
 
 **A weapon changes hands the way the weapon locker moves one.** `_zm_weapons.gsc` reads
 everything about a weapon into a record with `get_player_weapondata()` and gives it back
@@ -322,7 +368,7 @@ weapon to whoever presses use; sharing sets that flag. After the hacker summons 
 stock code marks it `auto_open` and `no_charge`, and opens it for the next player without
 charging; a paid spin sets those two. The press itself is caught one step earlier: each
 box builds a per-player trigger through a hook the game leaves open, and ZShare puts its
-own relay in front of the box — so each player's prompt says what their press will do.
+own relay in front of the box - so each player's prompt says what their press will do.
 
 **The Pack-a-Punch reads its price off its trigger on every press.** A paid pack holds that
 price at zero until somebody uses it. Its take loop, `wait_for_player_to_take()`, is
@@ -330,7 +376,7 @@ replaced through Plutonium's `replaceFunc` with itself plus a share branch; ever
 taker receives is the stock code's doing.
 
 **A perk machine asks before it charges.** Its purchase loop calls `custom_perk_validation`
-after its own checks and before the price — the same hook Mob of the Dead's Brutus locks
+after its own checks and before the price - the same hook Mob of the Dead's Brutus locks
 and Origins' generators use. ZShare's version asks theirs first, and hands out a paid drink
 right there, through the stock drinking code, without the charge.
 
@@ -343,7 +389,7 @@ same names after a power cut.
 
 **Points go straight onto the score fields** when they're a gift, without the game's own
 helpers: one counts towards career stats, the other announces a purchase to anything
-listening — Origins' challenges among them — and a gift is neither. Paying at a machine is
+listening - Origins' challenges among them - and a gift is neither. Paying at a machine is
 a purchase, so it goes through the same helpers the machine would have used.
 
 **Every prompt is one of a fixed handful of strings.** Hint strings are configstrings, the
@@ -392,7 +438,7 @@ T6 script corpus.
 |---|---|
 | Black Ops 4 (T8) | [ZShareT8](https://github.com/Xeptix/ZShareT8) |
 | Black Ops III (T7) | [ZShareT7](https://github.com/Xeptix/ZShareT7) |
-| Black Ops II (T6) | ZShare — you are here |
+| Black Ops II (T6) | ZShare - you are here |
 | Black Ops (T5) | [ZShareT5](https://github.com/Xeptix/ZShareT5) |
 | World at War (T4) | [ZShareT4](https://github.com/Xeptix/ZShareT4) |
 
@@ -401,13 +447,40 @@ for what each engine can actually do.
 
 **All five in one download.** The [Treyarch
 Bundle](https://github.com/Xeptix/ZShare/releases/latest) carries every game ZShare runs
-on, laid out as each drops in — the `Plutonium` tree for this game and the other two, Black
-Ops III's folders, Black Ops 4's mod folder — with one installer that asks which of them to
+on, laid out as each drops in - the `Plutonium` tree for this game and the other two, Black
+Ops III's folders, Black Ops 4's mod folder - with one installer that asks which of them to
 install.
 
 ---
 
 ## Changelog
+
+### v1.3
+
+- **A settings screen.** The mod version puts every setting on a screen of its own, with a
+  category strip, a description panel and DEFAULT, RESET, RANDOMIZE and RESET ALL along the
+  bottom -- reached from a **ZSHARE SETTINGS** button in the zombies lobby and a row of the
+  same name on the game's own pause menu, both for the host. It is the screen every one of
+  Xep's Z mods draws, so a bundle of them shows one **ZBUNDLE SETTINGS** screen with a
+  category for each mod's settings and a **MODS** page that switches each of them on and off.
+  See [The settings menu](#the-settings-menu).
+- **`zs_enabled`.** ZShare itself, on by default. Off, the script loads, says so to any other
+  mod that asks, and does nothing else: no prompts, no hooks over the stock scripts, no chat
+  words and no threads. Read as the match loads, so a change takes on the next one.
+- **Other mods can find ZShare.** It registers `level.zmods["zshare"]` as it finishes
+  loading -- its version, whether it is switched on, a way to make it re-read its settings,
+  and two perk-limit readers: the limit the map would give on its own, and the one ZShare is
+  actually holding it to. A mod that sets a limit of its own can ask rather than guess, and
+  keep the extra slots a map hands out. Switched off, the descriptor still goes up saying so.
+- **A Who's Who copy can no longer give points away.** `!thank` and `!tip` let the copy send
+  points that came back to it on the revive, so the points were minted. Every prompt already
+  refused it; the chat words do now too.
+- **Sharing is off in Grief**, as paying already was. A shared box weapon or Pack-a-Punch is
+  offered to everyone at that machine, the enemy team included.
+- **`!tip` works on every client again.** The check that skips a leading character a client
+  can put in front of a chat message compared one character too few, so `!tip` was ignored
+  wherever that happens. A message that only starts with the word -- "!tipsy" -- is no
+  longer read as one either.
 
 ### v1.2
 
@@ -433,25 +506,25 @@ install.
   crouched prompt on them offers a small thank, or type `!thank`. The points come out of
   your own. `zs_thank_amount` and `zs_thank_time` set how much and how long.
 - **Tip any amount** with `!tip 500`, or `!tip <name> 500`.
-- **`zs_perk_limit`** — how many perks a player can hold, or `-1` for no limit.
+- **`zs_perk_limit`** - how many perks a player can hold, or `-1` for no limit.
 - Every setting is a dvar, re-read while the game runs, and `set zs_config_print 1` lists
   them all.
-- **ZShare [Treyarch Bundle]** — all five games in one download, with one installer that
+- **ZShare [Treyarch Bundle]** - all five games in one download, with one installer that
   asks which to install.
 
 ---
 
 ## Credits
 
-- **Xep** — author
-- **Treyarch** — `_zm_magicbox.gsc`, `_zm_perks.gsc`, `_zm_weapons.gsc`, `_zm_laststand.gsc`: everything this stands on
-- **[plutoniummod/t6-scripts](https://github.com/plutoniummod/t6-scripts)** — stock T6 script reference
+- **Xep** - author
+- **Treyarch** - `_zm_magicbox.gsc`, `_zm_perks.gsc`, `_zm_weapons.gsc`, `_zm_laststand.gsc`: everything this stands on
+- **[plutoniummod/t6-scripts](https://github.com/plutoniummod/t6-scripts)** - stock T6 script reference
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Use it, fork it, ship it in a server pack. Keep the
+MIT - see [LICENSE](LICENSE). Use it, fork it, ship it in a server pack. Keep the
 copyright notice and the header block at the top of `zshare.gsc`.
 
 That covers ZShare's own code. Treyarch's stock scripts are referenced here, not
