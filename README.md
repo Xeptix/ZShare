@@ -6,7 +6,9 @@ by Xep
 
 [**Download the latest release**](https://github.com/Xeptix/ZShare/releases/latest)
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F6L1285ROA)
+[![Support the mod on Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F6L1285ROA)
+[![Support the mod on Patreon](https://img.shields.io/badge/Patreon-Xeptix-F96854?logo=patreon&logoColor=white)](https://www.patreon.com/Xeptix)
+[![Join the Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/RE85HRwYZZ)
 
 Trade guns with a teammate, hand them points, give away a box hit or a Pack-a-Punch you
 don't want, and pay for a teammate's perk, spin or pack. All of it from the use button,
@@ -282,6 +284,17 @@ in [Sounds](#sounds) are still the console's.
 
 The loose script has no menu: Plutonium loads menus from a mod and nowhere else.
 
+**In your language.** The screen reads in the language your game is set to. It carries French,
+German, Italian, Spanish, Brazilian Portuguese, Russian, Polish, Czech, Japanese, Korean, and
+Traditional and Simplified Chinese; any other language reads English. A setting's console name
+(`zs_...`) and its numbers stay as they are in every language; the choices are translated with the
+rest. The prompts and messages in a match
+are in English on this port.
+
+**The translations are made by AI and may contain mistakes.** If you find one, please tell Xep on
+the [Discord](https://discord.gg/RE85HRwYZZ): the game and ZShare version, the language, the
+setting or line, what it says now and what it should say. A screenshot helps.
+
 The screen is the one every Z mod draws, so a bundle that carries more than one of them shows
 a single **ZBUNDLE SETTINGS** screen with each mod's categories in it, each mod still keeping
 its own settings in its own place - and the title over each category names the mod that owns
@@ -454,6 +467,20 @@ install.
 ---
 
 ## Changelog
+
+### v1.4
+
+- **The settings screen speaks your language**: twelve languages besides English, in whichever
+  one the game is set to. The translations are made by AI; see
+  [The settings menu](#the-settings-menu) for how to report a mistake.
+- **The settings screen keeps your place and your choice.** Changing a setting leaves you on the
+  row you were on, a value you pick stays picked even when it is also the default, and the
+  confirmation text fits inside its box.
+- **Shortcuts in the pause menu follow who may use them.** A shortcut only the host can use is
+  drawn for the host alone and refused to anyone else at the press; one every player can use is
+  every player's.
+- **A Discord**, linked at the top of this README beside Ko-fi and Patreon, for questions,
+  bugs and ideas.
 
 ### v1.3
 

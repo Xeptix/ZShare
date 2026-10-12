@@ -1,6 +1,6 @@
 /*
 ======================================================================
-    ZSHARE v1.3  --  Weapon sharing for Black Ops II Zombies
+    ZSHARE v1.4  --  Weapon sharing for Black Ops II Zombies
     Plutonium T6
 
     by Xep
@@ -1879,7 +1879,7 @@ zs_tip( rest )
 }
 
 /*
-    The player a typed name means. Case and colour codes are ignored and
+    The player a typed name means. Case and color codes are ignored and
     a prefix is enough, but a name that matches nobody -- or more than
     one -- is refused rather than guessed at: somebody typing a name
     means that player, and sending their points to another is worse than
@@ -1926,7 +1926,7 @@ zs_player_named( name, asker )
     return found;
 }
 
-// A name with the colour codes taken out, so typing it plainly matches.
+// A name with the color codes taken out, so typing it plainly matches.
 zs_plain_name( name )
 {
     out = "";
@@ -4014,7 +4014,7 @@ zs_game_ready()
 zs_version()
 {
     // ZS_VERSION_BEGIN
-    return "1.3";
+    return "1.4";
     // ZS_VERSION_END
 }
 
