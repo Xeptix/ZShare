@@ -468,6 +468,10 @@ install.
 
 ## Changelog
 
+### v1.5
+
+- No change on this game; the version moves with the others so all five stay in step.
+
 ### v1.4
 
 - **The settings screen speaks your language**: twelve languages besides English, in whichever
